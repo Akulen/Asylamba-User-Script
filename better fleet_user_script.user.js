@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         better fleet
-// @version      0.0.2.1
+// @version      0.0.2.2
 // @description  better fleet
 // @author       ChickenStorm
 // @match        http://game.asylamba.com/beta/fleet*
@@ -136,9 +136,9 @@ function initUserScript(){
     var textPPreset = ""
     
     textPPreset = presetHTML([[0,2],[2,17],[7,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png","Ender");
-    textPPreset += presetHTML([[2,33]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png","33 chimères");
+    textPPreset += presetHTML([[2,33]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png","33 ch");
     textPPreset += presetHTML([[0,4],[9,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/hydre.png","hydre (pe)");
-    textPPreset += presetHTML([[0,2],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","phénix (pe)");
+    textPPreset += presetHTML([[0,2],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","ph (pe)");
     
     d[j].style.width = "600px"; // by defalut 300px
     d[j].innerHTML += "<div class='list-ship test'> "+ textP+ "</div>";
