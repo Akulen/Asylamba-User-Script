@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         better fleet
-// @version      0.0.2.2
+// @version      0.0.2.3
 // @description  better fleet
 // @author       ChickenStorm
 // @match        http://game.asylamba.com/beta/fleet*
@@ -116,11 +116,11 @@ function initUserScript(){
     
     
     var textPPreset = "<a data-ship-id='0' onclick = '"+presetEnderCode+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png'></img><span class='text'><span class='quantity'>1</span><span>Ender</span></span>";
-    textPPreset += "<a data-ship-id='0' onclick = '"+presetChimer+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png'></img><span class='text'><span class='quantity'>1</span><span>33 chimères</span></span>";
+    textPPreset += "<a data-ship-id='0' onclick = '"+presetChimer+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png'></img><span class='text'><span class='quantity'>1</span><span>33 chimeres</span></span>";
     
     
     
-    textPPreset += "<a data-ship-id='0' onclick = '"+presetPhenix+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png'></img><span class='text'><span class='quantity'>1</span><span>phénix (pe)</span></span>";
+    textPPreset += "<a data-ship-id='0' onclick = '"+presetPhenix+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png'></img><span class='text'><span class='quantity'>1</span><span>phenix (pe)</span></span>";
     textPPreset += "<a data-ship-id='0' onclick = '"+presetHydre+"'href='#'><img alt='' src='https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/hydre.png'></img><span class='text'><span class='quantity'>1</span><span>hydre (pe)</span></span>";
     
     */
@@ -129,8 +129,8 @@ function initUserScript(){
     
     //image sources : hydre http://shannavi.centerblog.net/rub-hydres-.html
     // endre : http://minecraft.gamepedia.com/Eye_of_Ender
-    // chimère  new : http://idraemir.blogspot.ch/2011/05/la-chimere.html old:http://bibliotheque-imperiale.com/index.php?title=Chim%C3%A8re
-    // phénix : http://www.lemondededuralas.org/t460-le-phenix-enchaine-03
+    // chimere  new : http://idraemir.blogspot.ch/2011/05/la-chimere.html old:http://bibliotheque-imperiale.com/index.php?title=Chim%C3%A8re
+    // phenix : http://www.lemondededuralas.org/t460-le-phenix-enchaine-03
     
     
     var textPPreset = ""
