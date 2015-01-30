@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         better fleet
-// @version      0.0.2.3
+// @version      0.0.3
 // @description  better fleet
 // @author       ChickenStorm
-// @match        http://game.asylamba.com/beta/fleet*
+// @match        http://game.asylamba.com/beta/fleet/*
 // @grant        none
 // ==/UserScript==
 
@@ -20,19 +20,36 @@ var jIm = null;
 //var textS = ""
 
 
-function presetHTML(schipArray,imgSrc,name){
+function presetHTML(shipArray,imgSrc,name){
     
-    //schipArray : [[id,nombre],[id,nombre],...]
+    //shipArray : [[id,nombre],[id,nombre],...]
     
-    var presetCode = ""
-    
-    for (var i in schipArray){
-        presetCode += "squadronTransfer.move(\"btc\","+schipArray[i][0]+", "+schipArray[i][1]+");";
+    //var presetCode = ""
+   
+    /*for (var i in shipArray){
+        presetCode += "squadronTransfer.move(\"btc\","+shipArray[i][0]+", "+shipArray[i][1]+");";
         
     }
+    */
+    var shipArrayText = ""
     
     
-
+    shipArrayText += "["
+    
+    for (var i in shipArray){
+        
+        shipArrayText += "[" +shipArray[i].join(",")+"],"
+        
+    }
+    shipArrayText = shipArrayText.substring(0,shipArrayText.length-1) // remouve the last comma
+    shipArrayText += "]"
+    
+    
+    
+    //var presetCode = "var shipArrayIn = "+shipArrayText+";for (var i =0;i<=11;++i) {var shipSquadronQuantity = parseInt(squadronTransfer.obj.squadron.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var quantityOfShipToPlace = 0;for(var j in shipArrayIn){if (shipArrayIn[j][0] == i) {quantityOfShipToPlace = shipArrayIn[j][1];}}var shipDock = parseInt(squadronTransfer.obj.dock.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var shipQuantityToMove = Math.max(Math.min(quantityOfShipToPlace - shipSquadronQuantity,shipDock),-shipSquadronQuantity);if (shipQuantityToMove > 0 ) {squadronTransfer.move(\"btc\",i,shipQuantityToMove);}else if(shipQuantityToMove < 0){squadronTransfer.move(\"ctb\",i,-shipQuantityToMove);}}"
+    
+    var presetCode = "readableMoveFunction("+shipArrayText+");"
+    
     return "<a data-ship-id='0' onclick = '"+presetCode+"'href='#'><img alt='' src='"+imgSrc+"'></img><span class='text'><span class='quantity'>1</span><span>"+name+"</span></span>";
     
 }
@@ -134,8 +151,8 @@ function initUserScript(){
     
     
     var textPPreset = ""
-    
-    textPPreset = presetHTML([[0,2],[2,17],[7,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png","Ender");
+    textPPreset += presetHTML([[]],"","vide");
+    textPPreset += presetHTML([[0,2],[2,17],[7,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png","Ender");
     textPPreset += presetHTML([[2,33]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png","33 ch");
     textPPreset += presetHTML([[0,4],[9,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/hydre.png","hydre (pe)");
     textPPreset += presetHTML([[0,2],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","ph (pe)");
@@ -159,3 +176,45 @@ function initUserScript(){
 initUserScript()
 //////
 
+
+/*
+var olQuantity = parseInt(this.obj.squadron.find('a:nth-child(' + (shipId + 1) + ') .quantity').text());
+var orQuantity = parseInt(this.obj.dock.find('a:nth-child(' + (shipId + 1) + ') .quantity').text());
+*/
+
+
+function readableMoveFunction(shipArray){ // not used but "readable" verion of the preset Code
+    
+    var shipArrayIn = shipArray; /* for convertion */
+    
+    for (var i =0;i<=11;++i) {
+        
+        var shipSquadronQuantity = parseInt(squadronTransfer.obj.squadron.find('a:nth-child(' + (i + 1) + ') .quantity').text());
+        var quantityOfShipToPlace = 0; /*  if not found in shipArrayIn then equal to 0 */
+        for(var j in shipArrayIn){
+             
+            if (shipArrayIn[j][0] == i) {
+                quantityOfShipToPlace = shipArrayIn[j][1];
+            }
+        }
+        
+        var shipDock = parseInt(squadronTransfer.obj.dock.find('a:nth-child(' + (i + 1) + ') .quantity').text());
+        var shipQuantityToMove = Math.max(Math.min(quantityOfShipToPlace - shipSquadronQuantity,shipDock),-shipSquadronQuantity);  /* btc */
+        
+        
+        if (shipQuantityToMove > 0 ) {
+            
+            squadronTransfer.move('btc',i,shipQuantityToMove);
+        }
+        else if(shipQuantityToMove < 0){
+            squadronTransfer.move('ctb',i,-shipQuantityToMove);
+        }
+        //if 0 do nothing
+        
+    }
+    
+}
+
+ 
+    
+   
