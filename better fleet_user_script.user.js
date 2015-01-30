@@ -46,9 +46,9 @@ function presetHTML(shipArray,imgSrc,name){
     
     
     
-    //var presetCode = "var shipArrayIn = "+shipArrayText+";for (var i =0;i<=11;++i) {var shipSquadronQuantity = parseInt(squadronTransfer.obj.squadron.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var quantityOfShipToPlace = 0;for(var j in shipArrayIn){if (shipArrayIn[j][0] == i) {quantityOfShipToPlace = shipArrayIn[j][1];}}var shipDock = parseInt(squadronTransfer.obj.dock.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var shipQuantityToMove = Math.max(Math.min(quantityOfShipToPlace - shipSquadronQuantity,shipDock),-shipSquadronQuantity);if (shipQuantityToMove > 0 ) {squadronTransfer.move(\"btc\",i,shipQuantityToMove);}else if(shipQuantityToMove < 0){squadronTransfer.move(\"ctb\",i,-shipQuantityToMove);}}"
+    var presetCode = "var shipArrayIn = "+shipArrayText+";for (var i =0;i<=11;++i) {var shipSquadronQuantity = parseInt(squadronTransfer.obj.squadron.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var quantityOfShipToPlace = 0;for(var j in shipArrayIn){if (shipArrayIn[j][0] == i) {quantityOfShipToPlace = shipArrayIn[j][1];}}var shipDock = parseInt(squadronTransfer.obj.dock.find(\"a:nth-child(\" + (i + 1) + \") .quantity\").text());var shipQuantityToMove = Math.max(Math.min(quantityOfShipToPlace - shipSquadronQuantity,shipDock),-shipSquadronQuantity);if (shipQuantityToMove > 0 ) {squadronTransfer.move(\"btc\",i,shipQuantityToMove);}else if(shipQuantityToMove < 0){squadronTransfer.move(\"ctb\",i,-shipQuantityToMove);}}"
     
-    var presetCode = "readableMoveFunction("+shipArrayText+");"
+    //var presetCode = "readableMoveFunction("+shipArrayText+");"
     
     return "<a data-ship-id='0' onclick = '"+presetCode+"'href='#'><img alt='' src='"+imgSrc+"'></img><span class='text'><span class='quantity'>1</span><span>"+name+"</span></span>";
     
