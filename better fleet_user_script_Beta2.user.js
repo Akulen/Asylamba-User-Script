@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         better fleet Beta 2
-// @version      0.0.5.0
-// @description  better fleet Beta 2
+// @name         better fleet Beta 2 and 3
+// @version      0.0.5.1
+// @description  better fleet Beta 2 and 3
 // @author       ChickenStorm
 // @match        http://game.asylamba.com/s6/fleet/*
 // @match        http://game.asylamba.com/s7/fleet/*
