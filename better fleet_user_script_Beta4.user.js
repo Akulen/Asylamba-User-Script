@@ -197,8 +197,8 @@ function initUserScript(){
     textPPreset += presetHTML([[4,1],[5,1],[11,1]],"https://dl.dropbox.com/s/4zq1o1tm31y2yrp/phoenix.png","Phoenix M");
     textPPreset += presetHTML([[0,1],[4,2],[11,1]],"https://dl.dropbox.com/s/hw995r600c0heca/lowerphoenix.png","Phoenix D");
     
-    d[j].style.width = "750px"; // by defalut 300px
-    d[j].innerHTML += "<div class='list-ship test'> "+ textP+ "</div>";
+    d[j].style.width = "600px"; // by defalut 300px
+    //d[j].innerHTML += "<div class='list-ship test'> "+ textP+ "</div>";
     d[j].innerHTML += "<div class='list-ship test'> "+ textPPreset+ "</div>";
     
     im[jIm].style.left ='190px'; // sometimes not working ??? works for me but not in the form of user script but with "ardoise js" of firefox
@@ -260,4 +260,5 @@ function readableMoveFunction(shipArray){ // not used but "readable" verion of t
  
     
    
+
 
