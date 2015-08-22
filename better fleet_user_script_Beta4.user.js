@@ -183,7 +183,7 @@ function initUserScript(){
     textPPreset += presetHTML([[1,4],[3,4],[6,1],[7,1]],"https://dl.dropbox.com/s/sndrf2y3g6mgw17/cyclop.jpe","Cyclop GS");
     textPPreset += presetHTML([[2,8],[3,6],[6,2]],"https://dl.dropbox.com/s/ecjw5hcbz6x9f4u/griffon.png","Griffon 2C");
     textPPreset += presetHTML([[1,8],[3,6],[6,2]],"https://dl.dropbox.com/s/ecjw5hcbz6x9f4u/griffon.png","Griffon 2S");
-    textPPreset += presetHTML([[1,9],[3,10],[6,1]],"https://dl.dropbox.com/s/oxn211off21btwa/lowergriffon.png","Griffon 1C");
+    textPPreset += presetHTML([[2,9],[3,10],[6,1]],"https://dl.dropbox.com/s/oxn211off21btwa/lowergriffon.png","Griffon 1C");
     textPPreset += presetHTML([[1,9],[3,10],[6,1]],"https://dl.dropbox.com/s/oxn211off21btwa/lowergriffon.png","Griffon 1S");
     textPPreset += presetHTML([[4,2],[9,1]],"https://dl.dropbox.com/s/lgtqxx0h1rjwgww/hydra.png","Hydra D");
     textPPreset += presetHTML([[0,7],[9,1]],"https://dl.dropbox.com/s/m9q7irj33n6nqwp/lowerhydra.png","Hydra P");
