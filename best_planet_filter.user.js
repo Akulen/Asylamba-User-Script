@@ -12,7 +12,7 @@
 
 var $ = unsafeWindow.jQuery;
 
-var dataurl = 'http://tomas.rigaux.com/asylamba/s9/s9.json';
+var dataurl = '';
 var planetList = JSON.parse(`{"systems":[
 {"id":1,"planetid":"1","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance137 Al.","system":"1","resources":3,"population":1,"science":1,"defenses":1},
 {"id":2,"planetid":"2","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance137 Al.","system":"1","resources":4,"population":1,"science":1,"defenses":2},
