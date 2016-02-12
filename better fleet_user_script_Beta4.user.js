@@ -186,7 +186,7 @@ function initUserScript(){
     textPPreset += presetHTML([[3,20]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","20si");//20si
     textPPreset += presetHTML([[2,10],[4,10]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","10dr 10ch");//10dr 10ch
     textPPreset += presetHTML([[0,15],[4,10]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","10dr 15pe");//10dr 15pe
-    textPPreset += presetHTML([[0,9],[5,8]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","8me 9pe");//8me 9pe
+    textPPreset += presetHTML([[0,14],[5,8]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","8me 14pe");//8me 14pe
     textPPreset += presetHTML([[0,2],[2,7],[8,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","mino ch pe");//mino ch pe
     textPPreset += presetHTML([[0,7],[9,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","hy pe");//hy pe
     textPPreset += presetHTML([[0,8],[10,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","ce pe");//ce pe
