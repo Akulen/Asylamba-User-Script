@@ -17754,7 +17754,7 @@ function process()
 function refresh()
 {
 	hideAll();
-	if(resourceNumber > 0)
+	if(resourceBool > 0)
 	{
 		$('[class*=topResource]').show();
 		$("#fiveResourcesSelector").addClass("active");
@@ -17763,7 +17763,7 @@ function refresh()
 	{
 		$("#fiveResourcesSelector").removeClass("active");
 	}
-	if(populationNumber > 0)
+	if(populationBool > 0)
 	{
 		$('[class*=topPopulation]').show();
 		$("#fivePopulationSelector").addClass("active");
@@ -17772,7 +17772,7 @@ function refresh()
 	{
 		$("#fivePopulationSelector").removeClass("active");
 	}
-	if(scienceNumber > 0)
+	if(scienceBool > 0)
 	{
 		$('[class*=topScience]').show();
 		$("#fiveScienceSelector").addClass("active");
