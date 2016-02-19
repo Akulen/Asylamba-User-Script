@@ -17707,21 +17707,21 @@ function createIcons()
 	addCss("#map-content{ top: 135px; }");
 
 	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after(`
-		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+population.toString()+' de population">
+		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+population.toString()+` de population">
 			<img src="`+population_pic+`" alt="minimap">
 		</a>
 	`);
 	document.getElementById('fivePopulationSelector').addEventListener('click', togglePopulation, false);
 
 	$('#fivePopulationSelector').after(`
-		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+resource.toString()+' en coefficient ressource">
+		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+resource.toString()+` en coefficient ressource">
 			<img src="`+resource_pic+`" alt="minimap">
 		</a>
 	`);
 	document.getElementById('fiveResourcesSelector').addEventListener('click', toggleResource, false);
 
 	$('#fiveResourcesSelector').after(`
-		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+science.toString()+' en science" >
+		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+science.toString()+` en science" >
 			<img src="`+science_pic+`" alt="minimap">
 		</a>
 	`);
@@ -17879,30 +17879,6 @@ $(function(){
 		}, false);
 	}
 
-	//remainingTime
-	/*use = aoConfig.getValue("useRemainingTimes");
-	if(use != undefined)
-	{
-		if(use)
-		{
-			loadRemainingTimes();
-		}
-	}
-	else
-	{
-		aoConfig.setValue("useRemainingTimes", true);
-		loadRemainingTimes();
-	}
-
-	use = aoConfig.getValue("useHorizontalScroll");
-	if(use != undefined)
-	{
-		if(use)
-		{
-			loadHorizontalScroll();
-		}
-	}*/
-	
 	//configPanel
 	if(path.slice(1).substring(path.slice(1).indexOf('/'), path.length) == "/params")
 	{
