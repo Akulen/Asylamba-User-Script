@@ -17659,6 +17659,7 @@ function addConfigPanel()
 					config+='<h4>Science</h4>';
 					for(var i = 1; i <= 5; ++i)
 						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("science"+i) ? "" : "disabled")+'" config-attribute="science'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
 				config+=('</div>'
 						+'<a href="#" class="toTop" style="display: none;"></a>'
 						+'<a href="#" class="toBottom" style="display: none;"></a>'
@@ -17689,12 +17690,11 @@ function addConfigPanel()
 var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
 var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
 var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
-var populationNumber = 0;
-var resourceNumber = 0;
-var scienceNumber = 0;
-var preprocessedPopulation = false;
-var preprocessedResource = false
-var preprocessedScience = false;
+var populationBool = 0;
+var resourceBool = 0;
+var scienceBool = 0;
+var preprocessed= false;
+var population = [], resource = [], science = [];
 
 //############################################
 
@@ -17707,21 +17707,21 @@ function createIcons()
 	addCss("#map-content{ top: 135px; }");
 
 	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after(`
-		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? de population">
+		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+population.toString()+' de population">
 			<img src="`+population_pic+`" alt="minimap">
 		</a>
 	`);
 	document.getElementById('fivePopulationSelector').addEventListener('click', togglePopulation, false);
 
 	$('#fivePopulationSelector').after(`
-		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? en coefficient ressource">
+		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+resource.toString()+' en coefficient ressource">
 			<img src="`+resource_pic+`" alt="minimap">
 		</a>
 	`);
 	document.getElementById('fiveResourcesSelector').addEventListener('click', toggleResource, false);
 
 	$('#fiveResourcesSelector').after(`
-		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? en science" >
+		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+science.toString()+' en science" >
 			<img src="`+science_pic+`" alt="minimap">
 		</a>
 	`);
@@ -17730,58 +17730,37 @@ function createIcons()
 
 function togglePopulation()
 {
-    if(populationNumber != 0)
-        populationNumber *= -1;
-    else 
-        populationNumber = prompt("Population");
+	populationBool = !populationBool;
 	process();
 }
 
 function toggleResource()
 {
-    if(resourceNumber != 0)
-        resourceNumber *= -1;
-    else 
-        resourceNumber = prompt("Ressources");
+	resourceBool = !resourceBool;
 	process();
 }
 
 function toggleScience()
 {
-    if(scienceNumber != 0)
-        scienceNumber *= -1;
-    else 
-        scienceNumber = prompt("Science");
+	scienceBool = !scienceBool;
 	process();
 }
 
 function process()
 {
-	if(resourceNumber > 0 || scienceNumber > 0 || populationNumber > 0)
+	if(resourceBool || scienceBool || populationBool)
 	{
-        if(resourceNumber > 0)
-        {
-            preprocessResource();
-            if(!preprocessedResource)
-                setTimeout(function() { process(); }, 1000);
-        }
-        if(scienceNumber > 0)
-        {
-            preprocessScience();
-            if(!preprocessedScience)
-                setTimeout(function() { process(); }, 1000);
-        }
-        if(populationNumber > 0)
-        {
-            preprocessPopulation();
-            if(!preprocessedPopulation)
-                setTimeout(function() { process(); }, 1000);
-        }
+        preprocess();
+        if(preprocessed < 2)
+            setTimeout(function() { process(); }, 1000);
+		else
+			refresh();
 	}
-    if((resourceNumber <= 0 || preprocessedResource) && (scienceNumber <= 0 || preprocessedScience) && (populationNumber <= 0 || preprocessedPopulation))
+	if(resourceBool && scienceBool && populationBool)
+	{
         refresh();
-	if(resourceNumber <= 0 && scienceNumber <= 0 && populationNumber <= 0)
 		showAll();
+	}
 }
 
 function refresh()
@@ -17816,20 +17795,21 @@ function refresh()
 	}
 }
 
-function preprocessResource()
+function preprocess()
 {
 	if(!preprocessed)
 	{
 		preprocessed = 1;
 		for each(var planet in planetList.systems)
 		{
-			if(planet.resources == 4)
+			if(~resource.indexOf(planet.resources))
 				$("[data-system-id="+planet.system+"]").addClass("topResource");
-			if(planet.population == 5)
+			if(~population.indexOf(planet.population))
 				$("[data-system-id="+planet.system+"]").addClass("topPopulation");
-			if(planet.science == 5)
+			if(~science.indexOf(planet.science))
 				$("[data-system-id="+planet.system+"]").addClass("topScience");
 		}
+		preprocessed = 2;
 	}
 }
 
@@ -17849,31 +17829,15 @@ function topPlanete(planete) {
 	var link = planete.querySelector('a[data-url*="placeid-"]');
 	if(link != null) {
 		var id = find(parseInt(planete.querySelector('a[data-url*="placeid-"]').getAttribute("data-url").match(/placeid\-([0-9]+)/)[1]));
-		if(populationNumber && planetList.systems[id].population == populationNumber)
+		if(~population.indexOf(planetList.systems[id].population))
 			return true;
-		if(resourceNumber && planetList.systems[id].resources == resourceNumber)
+		if(~resource.indexOf(planetList.systems[id].resources))
 			return true;
-		if(scienceNumber && planetList.systems[id].science == scienceNumber)
+		if(~science.indexOf(planetList.systems[id].science))
 			return true;
 	}
 	return false;
 }
-
-//createIcons();
-/*document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
-  if(populationNumber || resourceNumber || scienceNumber) {
-		var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
-    var i;
-    for (i = 0; i < planetes.length; ++i) {
-			var planete = planetes[i];
-			var idRel = planete.getAttribute('id').match(/place\-([0-9]+)/)[1];
-			if(!topPlanete(planete))
-				setOpacity(idRel, 0);
-			else
-				setOpacity(idRel, 1);
-		}
-	}
-}, false);*/
 
 //############################################
 
@@ -17882,6 +17846,38 @@ $(function(){
 
 	//load BPF config
 	bpfConfig.loadConfig();
+
+	if(path.indexOf("/map") > -1)
+	{
+		for(var i = 1; i <= 5; ++i)
+		{
+			var pop = bpfConfig.getValue("population"+i);
+			if(pop != undefined && pop) population.push(i);
+			var res = bpfConfig.getValue("resource"+i);
+			if(res != undefined && res) resource.push(i);
+			var sci = bpfConfig.getValue("science"+i);
+			if(sci != undefined && sci) science.push(i);
+		}
+		if(population.length == 0) population = [5];
+		if(resource.length == 0) resource = [5];
+		if(science.length == 0) science = [5];
+		createIcons();
+			
+		document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
+			if(populationBool || resourceBool || scienceBool) {
+				var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
+		    	var i;
+		    	for (i = 0; i < planetes.length; ++i) {
+					var planete = planetes[i];
+					var idRel = planete.getAttribute('id').match(/place\-([0-9]+)/)[1];
+					if(!topPlanete(planete))
+						setOpacity(idRel, 0);
+					else
+						setOpacity(idRel, 1);
+				}
+			}
+		}, false);
+	}
 
 	//remainingTime
 	/*use = aoConfig.getValue("useRemainingTimes");
