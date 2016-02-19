@@ -17817,11 +17817,11 @@ function topPlanete(planete) {
 	var link = planete.querySelector('a[data-url*="placeid-"]');
 	if(link != null) {
 		var id = find(parseInt(planete.querySelector('a[data-url*="placeid-"]').getAttribute("data-url").match(/placeid\-([0-9]+)/)[1]));
-		if(~population.indexOf(planetList.systems[id].population))
+		if(populationBool && ~population.indexOf(planetList.systems[id].population))
 			return true;
-		if(~resource.indexOf(planetList.systems[id].resources))
+		if(resourceBool && ~resource.indexOf(planetList.systems[id].resources))
 			return true;
-		if(~science.indexOf(planetList.systems[id].science))
+		if(scienceBool && ~science.indexOf(planetList.systems[id].science))
 			return true;
 	}
 	return false;
