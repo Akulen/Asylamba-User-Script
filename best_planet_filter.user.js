@@ -5,14 +5,11 @@
 // @include 	http://game.asylamba.com/s9/map#
 // @include 	http://game.asylamba.com/s9/map
 // @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter.user.js 
-// @version     8.3
+// @version     9.0
 // @grant       GM_xmlhttpRequest
 // @author	Ayaash & Akulen
 // ==/UserScript==
 
-var $ = unsafeWindow.jQuery;
-
-var dataurl = '';
 var planetList = JSON.parse(`{"systems":[
 {"id":1,"planetid":"1","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance137 Al.","system":"1","resources":3,"population":1,"science":1,"defenses":1},
 {"id":2,"planetid":"2","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance137 Al.","system":"1","resources":4,"population":1,"science":1,"defenses":2},
@@ -17544,7 +17541,29 @@ var planetList = JSON.parse(`{"systems":[
 {"id":1,"planetid":"17531","desc":"Gynécéepropriété duNoble koustoPopulationRessourceScienceDistance221 Al.","system":"3022","resources":4,"population":2,"science":1,"defenses":0},
 {"id":2,"planetid":"17532","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance221 Al.","system":"3022","resources":1,"population":3,"science":1,"defenses":1},
 {"id":3,"planetid":-1,"desc":"Ceinture d'astéroïdesRessources2 975 614Débris60 727Gaz noble0Distance221 Al.","system":"3022","resources":0,"population":0,"science":0,"defenses":0}]}`);
-var reservationList = [];
+
+//############################################
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
 
 function showAll()
 {
@@ -17561,14 +17580,6 @@ function show(id)
   $('[data-system-id='+id+']').show();
 }
 
-var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
-var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
-var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
-var populationBool = false;
-var resourceBool = false;
-var scienceBool = false;
-var preprocessed = 0;
-
 function addCss(newCss)
 {
 	if(!$('#custom-css').length)
@@ -17578,64 +17589,200 @@ function addCss(newCss)
 	$('#custom-css').append(newCss);
 }
 
-function createIcon()
+//################ BPFConfig ##################
+
+function BPFConfig()
 {
+	this.config = {};
+}
+BPFConfig.prototype.getValue = function(key)
+{
+	return this.config[key];
+}
+BPFConfig.prototype.setValue = function(key, val)
+{
+	if(typeof val === "function"){}
+	else
+	{
+		this.config[key] = val;
+		this.saveConfig();
+	}
+}
+BPFConfig.prototype.loadConfig = function()
+{
+	var strData = readCookie("BPFconfig");
 	
+	if(strData){
+		var jsonData = eval("(" + strData + ")");
+
+		this.config = jsonData;
+	}
+}
+BPFConfig.prototype.saveConfig = function()
+{
+	var saveData = {};
+	for(variable in this.config)
+	{
+		if(typeof variable === "function"){}
+		else
+		{
+			saveData[variable] = this.config[variable];
+		}
+	}
+	createCookie("BPFconfig", JSON.stringify(saveData), 365);
+}
+
+var bpfConfig = new BPFConfig();
+
+//############################################
+
+function addConfigPanel()
+{
+	var config = '<div class="component hasMover">'
+					+'<div class="head skin-5">'
+						+'<h2>'
+							+'Paramètres de Best Planet Filter'
+						+'</h2>'
+					+'</div>'
+					+'<div class="fix-body">'
+						+'<div class="body" style="top: 0px;">';
+							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useOraclesMap") ? "" : "disabled")+'" config-attribute="useOraclesMap">Utiliser Oracle\'s Map</a>';
+							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useRemainingTimes") ? "" : "disabled")+'" config-attribute="useRemainingTimes">Utiliser RemainingTimes</a>';
+							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useQuickMenus") ? "" : "disabled")+'" config-attribute="useQuickMenus">Utiliser QuickMenus</a>';
+							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useHorizontalScroll") ? "" : "disabled")+'" config-attribute="useHorizontalScroll">Activer le scrolling horizontal</a>';
+
+							
+							
+
+						config+=('</div>'
+								+'<a href="#" class="toTop" style="display: none;"></a>'
+								+'<a href="#" class="toBottom" style="display: none;"></a>'
+							+'</div>'
+						+'</div>');
+
+	
+	$('#content > div:nth-child(2)').after(config);
+
+	$('.BPF-config').on('click', function(){
+		var confName = $(this).attr('config-attribute');
+		
+		if(bpfConfig.getValue(confName))
+		{
+			$(this).addClass("disabled");
+			bpfConfig.setValue(confName, false);
+		}
+		else
+		{
+			$(this).removeClass("disabled");
+			bpfConfig.setValue(confName, true);
+		}
+	});
+}
+
+//############################################
+
+var $ = unsafeWindow.jQuery;
+var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
+var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
+var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
+var populationNumber = 0;
+var resourceNumber = 0;
+var scienceNumber = 0;
+var preprocessedPopulation = false;
+var preprocessedResource = false
+var preprocessedScience = false;
+
+//############################################
+
+function createIcons()
+{
 	addCss("#map-option{ max-width: 186px; background-repeat: initial; height:70px; }");
 	addCss("#map-option::before{ height: 76px; }");
 	addCss("#map-option::after{ height: 76px; }");
 	addCss("#map-option a{ margin-top: 2px; }");
 	addCss("#map-content{ top: 135px; }");
-	//Options
-	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after('<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 de population"><img src="'+population_pic+'" alt="minimap"></a>');       
+
+	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after(`
+		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? de population">
+			<img src="`+population_pic+`" alt="minimap">
+		</a>
+	`);
 	document.getElementById('fivePopulationSelector').addEventListener('click', togglePopulation, false);
 
-	$('#fivePopulationSelector').after('<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 en coefficient ressource"><img src="'+resource_pic+'" alt="minimap"></a>');     
+	$('#fivePopulationSelector').after(`
+		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? en coefficient ressource">
+			<img src="`+resource_pic+`" alt="minimap">
+		</a>
+	`);
 	document.getElementById('fiveResourcesSelector').addEventListener('click', toggleResource, false);
 
-	$('#fiveResourcesSelector').after('<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 en science" ><img src="'+science_pic+'" alt="minimap"></a>');      
+	$('#fiveResourcesSelector').after(`
+		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant ??? en science" >
+			<img src="`+science_pic+`" alt="minimap">
+		</a>
+	`);
 	document.getElementById('fiveScienceSelector').addEventListener('click', toggleScience, false);
 }
 
 function togglePopulation()
 {
-	populationBool = !populationBool;
+    if(populationNumber != 0)
+        populationNumber *= -1;
+    else 
+        populationNumber = prompt("Population");
 	process();
 }
 
 function toggleResource()
 {
-	resourceBool = !resourceBool;
+    if(resourceNumber != 0)
+        resourceNumber *= -1;
+    else 
+        resourceNumber = prompt("Ressources");
 	process();
 }
 
 function toggleScience()
-{
-	scienceBool = !scienceBool;
+    if(scienceNumber != 0)
+        scienceNumber *= -1;
+    else 
+        scienceNumber = prompt("Science");
 	process();
 }
 
 function process()
 {
-	if(resourceBool || scienceBool || populationBool)
+	if(resourceNumber > 0 || scienceNumber > 0 || populationNumber > 0)
 	{
-		preprocess();
-		if(!preprocessed)
-			setTimeout(function() { process(); }, 1000);
-		else
-			refresh();
+        if(resourceNumber > 0)
+        {
+            preprocessResource();
+            if(!preprocessedResource)
+                setTimeout(function() { process(); }, 1000);
+        }
+        if(scienceNumber > 0)
+        {
+            preprocessScience();
+            if(!preprocessedScience)
+                setTimeout(function() { process(); }, 1000);
+        }
+        if(populationNumber > 0)
+        {
+            preprocessPopulation();
+            if(!preprocessedPopulation)
+                setTimeout(function() { process(); }, 1000);
+        }
 	}
-	else
-	{
-		refresh();
+    if((resourceNumber <= 0 || preprocessedResource) && (scienceNumber <= 0 || preprocessedScience) && (populationNumber <= 0 || preprocessedPopulation))
+        refresh();
+	if(resourceNumber <= 0 && scienceNumber <= 0 && populationNumber <= 0)
 		showAll();
-	}
 }
 
 function refresh()
 {
 	hideAll();
-	if(resourceBool)
+	if(resourceNumber > 0)
 	{
 		$('[class*=topResource]').show();
 		$("#fiveResourcesSelector").addClass("active");
@@ -17644,7 +17791,7 @@ function refresh()
 	{
 		$("#fiveResourcesSelector").removeClass("active");
 	}
-	if(populationBool)
+	if(populationNumber > 0)
 	{
 		$('[class*=topPopulation]').show();
 		$("#fivePopulationSelector").addClass("active");
@@ -17653,7 +17800,7 @@ function refresh()
 	{
 		$("#fivePopulationSelector").removeClass("active");
 	}
-	if(scienceBool)
+	if(scienceNumber > 0)
 	{
 		$('[class*=topScience]').show();
 		$("#fiveScienceSelector").addClass("active");
@@ -17664,14 +17811,14 @@ function refresh()
 	}
 }
 
-function preprocess()
+function preprocessResource()
 {
 	if(!preprocessed)
 	{
 		preprocessed = 1;
 		for each(var planet in planetList.systems)
 		{
-			if(planet.resources == 5)
+			if(planet.resources == 4)
 				$("[data-system-id="+planet.system+"]").addClass("topResource");
 			if(planet.population == 5)
 				$("[data-system-id="+planet.system+"]").addClass("topPopulation");
@@ -17697,11 +17844,11 @@ function topPlanete(planete) {
 	var link = planete.querySelector('a[data-url*="placeid-"]');
 	if(link != null) {
 		var id = find(parseInt(planete.querySelector('a[data-url*="placeid-"]').getAttribute("data-url").match(/placeid\-([0-9]+)/)[1]));
-		if(populationBool && planetList.systems[id].population == 5)
+		if(populationNumber && planetList.systems[id].population == populationNumber)
 			return true;
-		if(resourceBool && planetList.systems[id].resources == 5)
+		if(resourceNumber && planetList.systems[id].resources == resourceNumber)
 			return true;
-		if(scienceBool && planetList.systems[id].science == 5)
+		if(scienceNumber && planetList.systems[id].science == scienceNumber)
 			return true;
 	}
 	return false;
@@ -17709,7 +17856,7 @@ function topPlanete(planete) {
 
 createIcon();
 document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
-  if(populationBool || resourceBool || scienceBool) {
+  if(populationNumber || resourceNumber || scienceNumber) {
 		var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
     var i;
     for (i = 0; i < planetes.length; ++i) {
@@ -17722,3 +17869,44 @@ document.getElementById("action-box").addEventListener("DOMNodeInserted", functi
 		}
 	}
 }, false);
+
+//############################################
+
+$(function(){
+	var path = window.location.pathname;
+
+	//load BPF config
+	bpfConfig.loadConfig();
+
+	//remainingTime
+	/*use = aoConfig.getValue("useRemainingTimes");
+	if(use != undefined)
+	{
+		if(use)
+		{
+			loadRemainingTimes();
+		}
+	}
+	else
+	{
+		aoConfig.setValue("useRemainingTimes", true);
+		loadRemainingTimes();
+	}
+
+	use = aoConfig.getValue("useHorizontalScroll");
+	if(use != undefined)
+	{
+		if(use)
+		{
+			loadHorizontalScroll();
+		}
+	}*/
+	
+	//configPanel
+	if(path.slice(1).substring(path.slice(1).indexOf('/'), path.length) == "/params")
+	{
+		addConfigPanel();
+	}
+});
+
+//############################################
