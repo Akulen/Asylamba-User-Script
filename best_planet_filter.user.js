@@ -4,8 +4,10 @@
 // @include     http://game.asylamba.com/s9/map/*
 // @include 	http://game.asylamba.com/s9/map#
 // @include 	http://game.asylamba.com/s9/map
+// @include		http://game.asylamba.com/s9/params*
 // @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter.user.js 
 // @version     9.0
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
 // @author	Ayaash & Akulen
 // ==/UserScript==
@@ -17646,19 +17648,22 @@ function addConfigPanel()
 					+'</div>'
 					+'<div class="fix-body">'
 						+'<div class="body" style="top: 0px;">';
-							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useOraclesMap") ? "" : "disabled")+'" config-attribute="useOraclesMap">Utiliser Oracle\'s Map</a>';
-							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useRemainingTimes") ? "" : "disabled")+'" config-attribute="useRemainingTimes">Utiliser RemainingTimes</a>';
-							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useQuickMenus") ? "" : "disabled")+'" config-attribute="useQuickMenus">Utiliser QuickMenus</a>';
-							config+='<a href="#" class="on-off-button BPF-config '+(bpfConfig.getValue("useHorizontalScroll") ? "" : "disabled")+'" config-attribute="useHorizontalScroll">Activer le scrolling horizontal</a>';
-
-							
-							
-
-						config+=('</div>'
-								+'<a href="#" class="toTop" style="display: none;"></a>'
-								+'<a href="#" class="toBottom" style="display: none;"></a>'
-							+'</div>'
-						+'</div>');
+					config+='<h4>Population</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("population"+i) ? "" : "disabled")+'" config-attribute="population'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
+					config+='<h4>Ressources</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("resource"+i) ? "" : "disabled")+'" config-attribute="resource'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
+					config+='<h4>Science</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("science"+i) ? "" : "disabled")+'" config-attribute="science'+i+'">'+i+'</a>';
+				config+=('</div>'
+						+'<a href="#" class="toTop" style="display: none;"></a>'
+						+'<a href="#" class="toBottom" style="display: none;"></a>'
+					+'</div>'
+				+'</div>');
 
 	
 	$('#content > div:nth-child(2)').after(config);
@@ -17681,7 +17686,6 @@ function addConfigPanel()
 
 //############################################
 
-var $ = unsafeWindow.jQuery;
 var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
 var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
 var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
@@ -17743,6 +17747,7 @@ function toggleResource()
 }
 
 function toggleScience()
+{
     if(scienceNumber != 0)
         scienceNumber *= -1;
     else 
@@ -17854,8 +17859,8 @@ function topPlanete(planete) {
 	return false;
 }
 
-createIcon();
-document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
+//createIcons();
+/*document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
   if(populationNumber || resourceNumber || scienceNumber) {
 		var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
     var i;
@@ -17868,7 +17873,7 @@ document.getElementById("action-box").addEventListener("DOMNodeInserted", functi
 				setOpacity(idRel, 1);
 		}
 	}
-}, false);
+}, false);*/
 
 //############################################
 
