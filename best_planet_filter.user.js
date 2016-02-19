@@ -17706,25 +17706,13 @@ function createIcons()
 	addCss("#map-option a{ margin-top: 2px; }");
 	addCss("#map-content{ top: 135px; }");
 
-	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after(`
-		<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+population.toString()+` de population">
-			<img src="`+population_pic+`" alt="minimap">
-		</a>
-	`);
+	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after('<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+population.toString()+' de population"><img src="'+population_pic+'" alt="minimap"></a>');
 	document.getElementById('fivePopulationSelector').addEventListener('click', togglePopulation, false);
 
-	$('#fivePopulationSelector').after(`
-		<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+resource.toString()+` en coefficient ressource">
-			<img src="`+resource_pic+`" alt="minimap">
-		</a>
-	`);
+	$('#fivePopulationSelector').after('<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+resource.toString()+' en coefficient ressource"><img src="'+resource_pic+'" alt="minimap"></a>');
 	document.getElementById('fiveResourcesSelector').addEventListener('click', toggleResource, false);
 
-	$('#fiveResourcesSelector').after(`
-		<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant `+science.toString()+` en science" >
-			<img src="`+science_pic+`" alt="minimap">
-		</a>
-	`);
+	$('#fiveResourcesSelector').after('<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+science.toString()+' en science" ><img src="'+science_pic+'" alt="minimap"></a>';
 	document.getElementById('fiveScienceSelector').addEventListener('click', toggleScience, false);
 }
 
