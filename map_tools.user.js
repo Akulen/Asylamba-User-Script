@@ -3,6 +3,10 @@
 // @namespace   Akulen
 // @include     http://game.asylamba.com/s9/map
 // @include     http://game.asylamba.com/s9/map*
+// @include     http://game.asylamba.com/s10/map
+// @include     http://game.asylamba.com/s10/map*
+// @include     http://game.asylamba.com/s*/map
+// @include     http://game.asylamba.com/s*/map*
 // @version     0.42
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
