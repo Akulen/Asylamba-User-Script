@@ -4,7 +4,7 @@
 // @include     http://game.asylamba.com/s9/map/*
 // @include 	http://game.asylamba.com/s9/map#
 // @include 	http://game.asylamba.com/s9/map
-// @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter.user.js 
+// @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter_s9.user.js 
 // @version     8.3
 // @grant       GM_xmlhttpRequest
 // @author	Ayaash & Akulen
