@@ -3,7 +3,6 @@
 // @namespace   Akulen
 // @include     http://game.asylamba.com/s9/map
 // @include     http://game.asylamba.com/s9/map*
-// @updateURL   https://github.com/Akulen/Asylamba-User-Script/raw/master/map_tools.user.js
 // @version     0.42
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==

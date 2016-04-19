@@ -7,6 +7,7 @@
 // @match        http://game.asylamba.com/s7/fleet/*
 // @match        http://game.asylamba.com/s8/fleet/*
 // @match        http://game.asylamba.com/s9/fleet/*
+// @match        http://game.asylamba.com/s10/fleet/*
 // @grant        none
 // ==/UserScript==
 
@@ -178,26 +179,22 @@ function initUserScript(){
     
     
     var textPPreset = ""
-    textPPreset += presetHTML([[]],"","vide");
-    textPPreset += presetHTML([[2,4],[3,4],[4,2],[5,1],[7,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","Cyclop DC");
-    textPPreset += presetHTML([[1,4],[3,4],[4,2],[5,1],[7,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","Cyclop DS");
-    textPPreset += presetHTML([[2,4],[3,4],[6,1],[7,1]],"https://dl.dropbox.com/s/sndrf2y3g6mgw17/cyclop.jpe","Cyclop GC");
-    textPPreset += presetHTML([[1,4],[3,4],[6,1],[7,1]],"https://dl.dropbox.com/s/sndrf2y3g6mgw17/cyclop.jpe","Cyclop GS");
-    textPPreset += presetHTML([[2,8],[3,6],[6,2]],"https://dl.dropbox.com/s/ecjw5hcbz6x9f4u/griffon.png","Griffon 2C");
-    textPPreset += presetHTML([[1,8],[3,6],[6,2]],"https://dl.dropbox.com/s/ecjw5hcbz6x9f4u/griffon.png","Griffon 2S");
-    textPPreset += presetHTML([[2,9],[3,10],[6,1]],"https://dl.dropbox.com/s/oxn211off21btwa/lowergriffon.png","Griffon 1C");
-    textPPreset += presetHTML([[1,9],[3,10],[6,1]],"https://dl.dropbox.com/s/oxn211off21btwa/lowergriffon.png","Griffon 1S");
-    textPPreset += presetHTML([[4,2],[9,1]],"https://dl.dropbox.com/s/lgtqxx0h1rjwgww/hydra.png","Hydra D");
-    textPPreset += presetHTML([[0,7],[9,1]],"https://dl.dropbox.com/s/m9q7irj33n6nqwp/lowerhydra.png","Hydra P");
-    textPPreset += presetHTML([[0,2],[4,2],[10,1]],"https://dl.dropbox.com/s/b8qzu6425asyyxo/cerberus.png","Cerberus");
+    textPPreset += presetHTML([[]],"","vide");//vide
+    textPPreset += presetHTML([[0,2],[2,17],[7,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png","Ender");//2pe 17ch 1cy
+    textPPreset += presetHTML([[0,2],[1,17],[7,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/ender.png");//2pe 17sa 1cy
+    textPPreset += presetHTML([[0,2],[2,32]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/chimere.png","anti-ender ch");//32ch 2pe
+    textPPreset += presetHTML([[0,2],[1,32]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","anti-ender sa");//32sa 2pe
+    textPPreset += presetHTML([[3,20]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","20si");//20si
+    textPPreset += presetHTML([[2,10],[4,10]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","10dr 10ch");//10dr 10ch
+    textPPreset += presetHTML([[0,15],[4,10]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","10dr 15pe");//10dr 15pe
+    textPPreset += presetHTML([[0,14],[5,8]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","8me 14pe");//8me 14pe
+    textPPreset += presetHTML([[0,2],[2,7],[8,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","mino ch pe");//mino ch pe
+    textPPreset += presetHTML([[0,7],[9,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/hydre.png","hy pe");//hy pe
+    textPPreset += presetHTML([[0,9],[10,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","ce pe");//ce pe
     textPPreset += "</div><div class='list-ship test'>";
-    textPPreset += presetHTML([[0,5],[1,5],[8,1]],"https://dl.dropbox.com/s/hwu20gb4wyzvtrh/minotaur.png","Minotaur");
-    textPPreset += presetHTML([[2,6],[3,3],[4,7],[5,2]],"https://dl.dropbox.com/s/qzx83rp400s9jac/fighter.png","Fighter 2C");
-    textPPreset += presetHTML([[1,6],[3,3],[4,7],[5,2]],"https://dl.dropbox.com/s/qzx83rp400s9jac/fighter.png","Fighter 2S");
-    textPPreset += presetHTML([[2,5],[3,4],[4,8],[5,1]],"https://dl.dropbox.com/s/ta0i73glp7945yf/lowerfighter.png","Fighter 1C");
-    textPPreset += presetHTML([[1,5],[3,4],[4,8],[5,1]],"https://dl.dropbox.com/s/ta0i73glp7945yf/lowerfighter.png","Fighter 1S");
-    textPPreset += presetHTML([[4,1],[5,1],[11,1]],"https://dl.dropbox.com/s/4zq1o1tm31y2yrp/phoenix.png","Phoenix M");
-    textPPreset += presetHTML([[0,1],[4,2],[11,1]],"https://dl.dropbox.com/s/hw995r600c0heca/lowerphoenix.png","Phoenix D");
+    textPPreset += presetHTML([[0,6],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","ph pe");//ph pe
+    textPPreset += presetHTML([[6,4]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","4gr (pillage)");//4gr (pillage)
+    textPPreset += presetHTML([[6,1],[8,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","1mi 1gr(pillage)");//1mi 1gr(pillage)
     
     d[j].style.width = "600px"; // by defalut 300px
     //d[j].innerHTML += "<div class='list-ship test'> "+ textP+ "</div>";
@@ -258,9 +255,3 @@ function readableMoveFunction(shipArray){ // not used but "readable" verion of t
     squadronTransfer.sendRequest()
     
 }
-
- 
-    
-   
-
-
