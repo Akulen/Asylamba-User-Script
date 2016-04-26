@@ -4,15 +4,10 @@
 // @include     http://game.asylamba.com/s9/map/*
 // @include 	http://game.asylamba.com/s9/map#
 // @include 	http://game.asylamba.com/s9/map
-<<<<<<< HEAD:best_planet_filter_s9.user.js
-// @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter_s9.user.js 
-// @version     8.3
-=======
 // @include		http://game.asylamba.com/s9/params*
-// @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter.user.js 
+// @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter_s9.user.js 
 // @version     9.0
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
->>>>>>> cd03561ba15e62cb19c894b51fd2049852e87933:best_planet_filter.user.js
 // @grant       GM_xmlhttpRequest
 // @author	Ayaash & Akulen
 // ==/UserScript==

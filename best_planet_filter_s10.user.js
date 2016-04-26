@@ -4,15 +4,14 @@
 // @include     http://game.asylamba.com/s10/map/*
 // @include 	http://game.asylamba.com/s10/map#
 // @include 	http://game.asylamba.com/s10/map
+// @include		http://game.asylamba.com/s10/params*
 // @updateURL	https://github.com/Ayaash/AsylambaBestPlanetsFilter/raw/master/best_planets_filter_s10.user.js 
-// @version     8.3
+// @version     10.0
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
 // @author	Ayaash & Akulen
 // ==/UserScript==
 
-var $ = unsafeWindow.jQuery;
-
-var dataurl = '';
 var planetList = JSON.parse(`{"systems":[
 {"id":1,"planetid":"1","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance96 Al.","system":"1","resources":2,"population":2,"science":1,"defenses":4},
 {"id":2,"planetid":"2","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance96 Al.","system":"1","resources":3,"population":1,"science":1,"defenses":2},
@@ -14080,7 +14079,29 @@ var planetList = JSON.parse(`{"systems":[
 {"id":1,"planetid":"14066","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance74 Al.","system":"2389","resources":2,"population":1,"science":2,"defenses":1},
 {"id":2,"planetid":"14067","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance74 Al.","system":"2389","resources":3,"population":2,"science":1,"defenses":1},
 {"id":3,"planetid":"14068","desc":"Planète rebelleDéfensePopulationRessourceScienceDistance74 Al.","system":"2389","resources":1,"population":3,"science":2,"defenses":2}]}`);
-var reservationList = [];
+
+//############################################
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
 
 function showAll()
 {
@@ -14097,14 +14118,6 @@ function show(id)
   $('[data-system-id='+id+']').show();
 }
 
-var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
-var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
-var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
-var populationBool = false;
-var resourceBool = false;
-var scienceBool = false;
-var preprocessed = 0;
-
 function addCss(newCss)
 {
 	if(!$('#custom-css').length)
@@ -14114,22 +14127,128 @@ function addCss(newCss)
 	$('#custom-css').append(newCss);
 }
 
-function createIcon()
+//################ BPFConfig ##################
+
+function BPFConfig()
 {
+	this.config = {};
+}
+BPFConfig.prototype.getValue = function(key)
+{
+	return this.config[key];
+}
+BPFConfig.prototype.setValue = function(key, val)
+{
+	if(typeof val === "function"){}
+	else
+	{
+		this.config[key] = val;
+		this.saveConfig();
+	}
+}
+BPFConfig.prototype.loadConfig = function()
+{
+	var strData = readCookie("BPFconfig");
 	
+	if(strData){
+		var jsonData = eval("(" + strData + ")");
+
+		this.config = jsonData;
+	}
+}
+BPFConfig.prototype.saveConfig = function()
+{
+	var saveData = {};
+	for(variable in this.config)
+	{
+		if(typeof variable === "function"){}
+		else
+		{
+			saveData[variable] = this.config[variable];
+		}
+	}
+	createCookie("BPFconfig", JSON.stringify(saveData), 365);
+}
+
+var bpfConfig = new BPFConfig();
+
+//############################################
+
+function addConfigPanel()
+{
+	var config = '<div class="component hasMover">'
+					+'<div class="head skin-5">'
+						+'<h2>'
+							+'Paramètres de Best Planet Filter'
+						+'</h2>'
+					+'</div>'
+					+'<div class="fix-body">'
+						+'<div class="body" style="top: 0px;">';
+					config+='<h4>Population</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("population"+i) ? "" : "disabled")+'" config-attribute="population'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
+					config+='<h4>Ressources</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("resource"+i) ? "" : "disabled")+'" config-attribute="resource'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
+					config+='<h4>Science</h4>';
+					for(var i = 1; i <= 5; ++i)
+						config+='<a href="#" style="display: inline-block" class="on-off-button BPF-config '+(bpfConfig.getValue("science"+i) ? "" : "disabled")+'" config-attribute="science'+i+'">'+i+'</a>';
+					config+='<hr></hr>';
+				config+=('</div>'
+						+'<a href="#" class="toTop" style="display: none;"></a>'
+						+'<a href="#" class="toBottom" style="display: none;"></a>'
+					+'</div>'
+				+'</div>');
+
+	
+	$('#content > div:nth-child(2)').after(config);
+
+	$('.BPF-config').on('click', function(){
+		var confName = $(this).attr('config-attribute');
+		
+		if(bpfConfig.getValue(confName))
+		{
+			$(this).addClass("disabled");
+			bpfConfig.setValue(confName, false);
+		}
+		else
+		{
+			$(this).removeClass("disabled");
+			bpfConfig.setValue(confName, true);
+		}
+	});
+}
+
+//############################################
+
+var population_pic = "http://game.asylamba.com/s9/public/media/resources/population.png";
+var resource_pic = "http://game.asylamba.com/s9/public/media/resources/resource.png";
+var science_pic = "http://game.asylamba.com/s9/public/media/resources/science.png";
+var populationBool = 0;
+var resourceBool = 0;
+var scienceBool = 0;
+var preprocessed= false;
+var population = [], resource = [], science = [];
+
+//############################################
+
+function createIcons()
+{
 	addCss("#map-option{ max-width: 186px; background-repeat: initial; height:70px; }");
 	addCss("#map-option::before{ height: 76px; }");
 	addCss("#map-option::after{ height: 76px; }");
 	addCss("#map-option a{ margin-top: 2px; }");
 	addCss("#map-content{ top: 135px; }");
-	//Options
-	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after('<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 de population"><img src="'+population_pic+'" alt="minimap"></a>');       
+
+	$('#map-option > a.sh.hb.lb.moveTo.switch-class').after('<a id="fivePopulationSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+population.toString()+' de population"><img src="'+population_pic+'" alt="minimap"></a>');
 	document.getElementById('fivePopulationSelector').addEventListener('click', togglePopulation, false);
 
-	$('#fivePopulationSelector').after('<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 en coefficient ressource"><img src="'+resource_pic+'" alt="minimap"></a>');     
+	$('#fivePopulationSelector').after('<a id="fiveResourcesSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+resource.toString()+' en coefficient ressource"><img src="'+resource_pic+'" alt="minimap"></a>');
 	document.getElementById('fiveResourcesSelector').addEventListener('click', toggleResource, false);
 
-	$('#fiveResourcesSelector').after('<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant 5 en science" ><img src="'+science_pic+'" alt="minimap"></a>');      
+	$('#fiveResourcesSelector').after('<a id="fiveScienceSelector" class="sh hb lb" href="#" title="Afficher les planètes ayant '+science.toString()+' en science" ><img src="'+science_pic+'" alt="minimap"></a>');
 	document.getElementById('fiveScienceSelector').addEventListener('click', toggleScience, false);
 }
 
@@ -14155,15 +14274,15 @@ function process()
 {
 	if(resourceBool || scienceBool || populationBool)
 	{
-		preprocess();
-		if(!preprocessed)
-			setTimeout(function() { process(); }, 1000);
+        preprocess();
+        if(preprocessed < 2)
+            setTimeout(function() { process(); }, 1000);
 		else
 			refresh();
 	}
-	else
+	if(resourceBool && scienceBool && populationBool)
 	{
-		refresh();
+        refresh();
 		showAll();
 	}
 }
@@ -14171,7 +14290,7 @@ function process()
 function refresh()
 {
 	hideAll();
-	if(resourceBool)
+	if(resourceBool > 0)
 	{
 		$('[class*=topResource]').show();
 		$("#fiveResourcesSelector").addClass("active");
@@ -14180,7 +14299,7 @@ function refresh()
 	{
 		$("#fiveResourcesSelector").removeClass("active");
 	}
-	if(populationBool)
+	if(populationBool > 0)
 	{
 		$('[class*=topPopulation]').show();
 		$("#fivePopulationSelector").addClass("active");
@@ -14189,7 +14308,7 @@ function refresh()
 	{
 		$("#fivePopulationSelector").removeClass("active");
 	}
-	if(scienceBool)
+	if(scienceBool > 0)
 	{
 		$('[class*=topScience]').show();
 		$("#fiveScienceSelector").addClass("active");
@@ -14207,13 +14326,14 @@ function preprocess()
 		preprocessed = 1;
 		for each(var planet in planetList.systems)
 		{
-			if(planet.resources == 5)
+			if(~resource.indexOf(planet.resources))
 				$("[data-system-id="+planet.system+"]").addClass("topResource");
-			if(planet.population == 5)
+			if(~population.indexOf(planet.population))
 				$("[data-system-id="+planet.system+"]").addClass("topPopulation");
-			if(planet.science == 5)
+			if(~science.indexOf(planet.science))
 				$("[data-system-id="+planet.system+"]").addClass("topScience");
 		}
+		preprocessed = 2;
 	}
 }
 
@@ -14233,28 +14353,61 @@ function topPlanete(planete) {
 	var link = planete.querySelector('a[data-url*="placeid-"]');
 	if(link != null) {
 		var id = find(parseInt(planete.querySelector('a[data-url*="placeid-"]').getAttribute("data-url").match(/placeid\-([0-9]+)/)[1]));
-		if(populationBool && planetList.systems[id].population == 5)
+		if(populationBool && ~population.indexOf(planetList.systems[id].population))
 			return true;
-		if(resourceBool && planetList.systems[id].resources == 5)
+		if(resourceBool && ~resource.indexOf(planetList.systems[id].resources))
 			return true;
-		if(scienceBool && planetList.systems[id].science == 5)
+		if(scienceBool && ~science.indexOf(planetList.systems[id].science))
 			return true;
 	}
 	return false;
 }
 
-createIcon();
-document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
-  if(populationBool || resourceBool || scienceBool) {
-		var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
-    var i;
-    for (i = 0; i < planetes.length; ++i) {
-			var planete = planetes[i];
-			var idRel = planete.getAttribute('id').match(/place\-([0-9]+)/)[1];
-			if(!topPlanete(planete))
-				setOpacity(idRel, 0);
-			else
-				setOpacity(idRel, 1);
+//############################################
+
+$(function(){
+	var path = window.location.pathname;
+
+	//load BPF config
+	bpfConfig.loadConfig();
+
+	if(path.indexOf("/map") > -1)
+	{
+		for(var i = 1; i <= 5; ++i)
+		{
+			var pop = bpfConfig.getValue("population"+i);
+			if(pop != undefined && pop) population.push(i);
+			var res = bpfConfig.getValue("resource"+i);
+			if(res != undefined && res) resource.push(i);
+			var sci = bpfConfig.getValue("science"+i);
+			if(sci != undefined && sci) science.push(i);
 		}
+		if(population.length == 0) population = [5];
+		if(resource.length == 0) resource = [5];
+		if(science.length == 0) science = [5];
+		createIcons();
+			
+		document.getElementById("action-box").addEventListener("DOMNodeInserted", function(evt) {
+			if(populationBool || resourceBool || scienceBool) {
+				var planetes = document.getElementById("action-box").querySelectorAll('[id*=place-]');
+		    	var i;
+		    	for (i = 0; i < planetes.length; ++i) {
+					var planete = planetes[i];
+					var idRel = planete.getAttribute('id').match(/place\-([0-9]+)/)[1];
+					if(!topPlanete(planete))
+						setOpacity(idRel, 0);
+					else
+						setOpacity(idRel, 1);
+				}
+			}
+		}, false);
 	}
-}, false);
+
+	//configPanel
+	if(path.slice(1).substring(path.slice(1).indexOf('/'), path.length) == "/params")
+	{
+		addConfigPanel();
+	}
+});
+
+//############################################
