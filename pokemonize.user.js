@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1
+// @version     0.1.1
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -296,6 +296,10 @@ function pokemonize(){
       {
         $(this).attr("src", "http://vignette3.wikia.nocookie.net/pokemon/images/c/cd/Team_Rocket_Trio_AG.png/revision/latest?cb=20150915073715");
       }
+      if($(this).attr("alt") == "planète")
+      {
+        $(this).attr("src", "https://burnttoastbooks.files.wordpress.com/2015/04/pokeball.png");
+      }
       $(this).attr("name", "done");
   }).get();
 
@@ -333,3 +337,4 @@ function pokemonize(){
 window.setInterval(pokemonize, 2000);
 
 pokemonize();
+
