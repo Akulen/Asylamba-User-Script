@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1.1
+// @version     0.1
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -175,7 +175,9 @@ function pokemonize(){
   $("img.avatar").map(function() {
       if($(this).parent().attr("class") == "openplace")
       {
-        var id = parseInt(/[^-]*$/.exec($(this).parent().parent().next().children().first().children().first().children().first().next().next().next().children().last().children().first().attr("href"))[0]);
+        var id = parseInt(/[^-]*$/.exec($(this).parent().parent().next().children().first().children().first().children().first().next().next().children().last().children().first().attr("href"))[0]);
+        if(isNaN(id))
+          id = parseInt(/[^-]*$/.exec($(this).parent().parent().next().children().first().children().first().children().first().next().next().next().children().last().children().first().attr("href"))[0]);
         if(id == 68)
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
         else
