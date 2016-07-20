@@ -165,6 +165,8 @@ var playerList = JSON.parse(`{"players":[
 function pokemonize(){
   $("img.picto[alt!='']").map(function() {
       var id = parseInt(/[^-]*$/.exec($(this).parent().attr("href"))[0]);
+	  if(id == 149)
+		  id = 52;
       if(id == 68)
         $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
       else
@@ -178,6 +180,8 @@ function pokemonize(){
         var id = parseInt(/[^-]*$/.exec($(this).parent().parent().next().children().first().children().first().children().first().next().next().children().last().children().first().attr("href"))[0]);
         if(isNaN(id))
           id = parseInt(/[^-]*$/.exec($(this).parent().parent().next().children().first().children().first().children().first().next().next().next().children().last().children().first().attr("href"))[0]);
+	  	if(id == 149)
+		  id = 52;
         if(id == 68)
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
         else
@@ -192,6 +196,8 @@ function pokemonize(){
           if(player.name == name)
             id = player.id;
         }
+	  	if(id == 149)
+		  id = 52;
         if(id == 68)
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
         else
@@ -202,6 +208,8 @@ function pokemonize(){
         var id = parseInt(/[^-]*$/.exec($(this).parent().children().last().children().last().children().last().attr("href"))[0]);
         if(isNaN(id))
           id = parseInt(/[^-]*$/.exec($("a[href^='http://game.asylamba.com/s11/embassy/player-'").attr("href")));
+	  	if(id == 149)
+		  id = 52;
         if(id == 68)
           $(this).attr("style", "background: url('https://www.pokebip.com/pokedex/images/sugimori/151.png'); background-color: #0a0a0a; background-position: center; background-repeat: no-repeat; width: 120px; height: 120px;");
         else
@@ -220,6 +228,8 @@ function pokemonize(){
       if(player.name == name)
         id = player.id;
     }
+	if(id == 149)
+		id = 52;
     if(id == 68)
       $(this).attr("style", "float: left; background: url('https://www.pokebip.com/pokedex/images/sugimori/151.png'); background-color: #0a0a0a; background-position: center; background-repeat: no-repeat; width: 200px; height: 200px;");
     else
@@ -237,6 +247,8 @@ function pokemonize(){
         if(player.name == name)
           id = player.id;
       }
+	  if(id == 149)
+		  id = 52;
       if(id == 68)
         $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
       else if(id == 384)
@@ -262,6 +274,8 @@ function pokemonize(){
             if(player.name == name)
               id = player.id;
           }
+	  	  if(id == 149)
+		    id = 52;
           if(id == 68)
             $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
           else if(id == -1)
@@ -283,6 +297,8 @@ function pokemonize(){
           if(player.name == name)
             id = player.id;
         }
+	  	if(id == 149)
+		  id = 52;
         if(id == 68)
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
         else if(id == 201)
@@ -315,6 +331,8 @@ function pokemonize(){
           if(player.name == name)
             id = player.id;
         }
+	  	if(id == 149)
+		  id = 52;
         if(id == 68)
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
         else if(id == -1)
