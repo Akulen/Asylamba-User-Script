@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1.2
+// @version     0.1.3
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -222,11 +222,21 @@ function pokemonize(){
 
   $("img[alt^='avatar'").map(function() {
     var name = $(this).parent().parent().children().first().children().last().html();
-    var id = 1;
+    var id = -1;
     for each(var player in playerList.players)
     {
       if(player.name == name)
         id = player.id;
+    }
+    if(id == -1)
+    {
+		  name = $(this).parent().parent().children().first().next().children().last().html();
+		  id = 129;
+		  for each(var player in playerList.players)
+		  {
+		    if(player.name == name)
+		      id = player.id;
+		  }
     }
 	if(id == 149)
 		id = 52;
