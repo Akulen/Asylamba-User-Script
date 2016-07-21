@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1.3
+// @version     0.1.4
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -316,10 +316,6 @@ function pokemonize(){
         else
           $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/" + (((id-1) % 150) + 1) + ".png");
       }
-      $(this).attr("name", "done");
-  }).get();
-
-  $("img").map(function() {
       if($(this).parent().attr("class") == "item")
       {
         $(this).attr("src", "http://vignette3.wikia.nocookie.net/pokemon/images/c/cd/Team_Rocket_Trio_AG.png/revision/latest?cb=20150915073715");
@@ -328,6 +324,22 @@ function pokemonize(){
       {
         $(this).attr("src", "https://burnttoastbooks.files.wordpress.com/2015/04/pokeball.png");
       }
+	  if($(this).attr("class") == "img")
+	  {
+	  	var name = $(this).attr("alt");
+        var id = 129;
+        for each(var player in playerList.players)
+        {
+          if(player.name == name)
+            id = player.id;
+        }
+	  	if(id == 149)
+		  id = 52;
+        if(id == 68)
+          $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
+		else
+          $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/" + (((id-1) % 150) + 1) + ".png");
+	  }
       $(this).attr("name", "done");
   }).get();
 
