@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1.4
+// @version     0.1.5
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -159,7 +159,9 @@ var playerList = JSON.parse(`{"players":[
 {"id":142,"name":"al3x"},
 {"id":159,"name":"v45e87"},
 {"id":151,"name":"lisandro"},
-{"id":119,"name":"Irezix v4"}
+{"id":119,"name":"Irezix v4"},
+{"id":167,"name":"Arpetuos"},
+{"id":168,"name":"Amphet"}
 ]}`);
 
 function pokemonize(){
