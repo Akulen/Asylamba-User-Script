@@ -2,7 +2,7 @@
 // @name        Pokemonizer
 // @namespace   Asylamba
 // @include     http://game.asylamba.com/s11/*
-// @version     0.1.5
+// @version     0.1.6
 // @updateURL		https://github.com/Akulen/Asylamba-User-Script/raw/master/pokemonize.user.js 
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
