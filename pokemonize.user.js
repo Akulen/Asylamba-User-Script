@@ -171,7 +171,7 @@ function pokemonize(){
 		  id = 52;
       if(id == 68)
         $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/448.png");
-      else
+      else if(!isNaN(id))
         $(this).attr("src", "https://www.pokebip.com/pokedex/images/gen4_general/" + (((id-1) % 150) + 1) + ".png");
       $(this).attr("name", "done");
   }).get();
