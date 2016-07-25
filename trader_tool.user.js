@@ -4,7 +4,8 @@
 // @include     http://game.asylamba.com/s*/profil*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search/show-result*
-// @version     0.1
+// @version     0.2
+// @updateURL	https://github.com/Akulen/Asylamba-User-Script/raw/master/trader_tool.user.js
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
 // @author		Akulen
@@ -102,5 +103,7 @@ function addInfo(data)
 				$(this).prepend('<span class="picto color1" style=" position: absolute; top: 11px; right: 10px; height: 35px; width: 35px; line-height: 35px; padding: 5px; border-radius: 100%; font-size: 1pc; text-align: center; color: #fff; text-decoration: none; background: #510816;" href="#">' + data.players[playerId].planets[planetId].roads + '</span>');
 			}
 		}
+		var cout = 8000 * parseInt(/[0-9]*/.exec($(this).children().last().html()));
+		$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s11/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
 	});
 }
