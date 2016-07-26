@@ -29,13 +29,9 @@ $(window).load(function(){
 				update();
 			}
 			else if(page == "bases/view-spatioport/mode-search")
-			{
-				window.setInterval(config, 5000);
 				config();
-			}
 			else if(page == "bases/view-spatioport/mode-search/show-result")
 			{
-				window.setInterval(config, 5000);
 				window.setInterval(addInfo, 5000);
 				config();
 				addInfo();
@@ -115,7 +111,10 @@ function addInfo()
 				$(this).prepend('<span class="picto color1" style=" position: absolute; top: 11px; right: 10px; height: 35px; width: 35px; line-height: 35px; padding: 5px; border-radius: 100%; font-size: 1pc; text-align: center; color: #fff; text-decoration: none; background: #510816;" href="#">' + data.players[playerId].planets[planetId].roads + '</span>');
 			}
 		}
-		var cout = 8000 * parseInt(/[0-9]*/.exec($(this).children().last().html()));
-		$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s11/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
+		if($(this).children().last().html()[$("a.player").children().last().html().length - 1] == '.')
+		{
+			var cout = 8000 * parseInt(/[0-9]*/.exec($(this).children().last().html()));
+			$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s11/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
+		}
 	});
 }
