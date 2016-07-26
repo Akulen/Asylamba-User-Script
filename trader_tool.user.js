@@ -14,6 +14,7 @@
 var server = /\/s([0-9]*)\//.exec(window.location.href)[1];
 var page = /\/s[0-9]*\/(.*)$/.exec(window.location.href)[1];
 var dataurl = "https://api.myjson.com/bins/3kepz";
+var data;
 
 $(window).load(function(){
 	GM_xmlhttpRequest({
@@ -21,21 +22,29 @@ $(window).load(function(){
 		url: dataurl,
 		onload: function(response)
 		{
-			var data = JSON.parse(response.responseText);
+			data = JSON.parse(response.responseText);
 			if(page == "profil")
-				update(data);
+			{
+				window.setInterval(update, 5000);
+				update();
+			}
 			else if(page == "bases/view-spatioport/mode-search")
+			{
+				window.setInterval(config, 5000);
 				config();
+			}
 			else if(page == "bases/view-spatioport/mode-search/show-result")
 			{
+				window.setInterval(config, 5000);
+				window.setInterval(addInfo, 5000);
 				config();
-				addInfo(data);
+				addInfo();
 			}
 		}
 	});
 });
 
-function update(data)
+function update()
 {
 	var player = /Profil — ([^—]*)—/.exec($("title").html())[1];
 	player = player.slice(0, -1);
@@ -86,7 +95,7 @@ function config()
 
 }
 
-function addInfo(data)
+function addInfo()
 {
 	$("a.player").map(function() {
 		var playerName = $(this).children().first().next().html();
