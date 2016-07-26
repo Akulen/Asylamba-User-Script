@@ -4,7 +4,7 @@
 // @include     http://game.asylamba.com/s*/profil*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search/show-result*
-// @version     0.2.1
+// @version     0.2.2
 // @updateURL	https://github.com/Akulen/Asylamba-User-Script/raw/master/trader_tool.user.js
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -80,7 +80,7 @@ function config()
 {
 	$("#search-rc-min-dist").attr("value", "100");
 	$("#ckb-faction-1").attr("checked", "");
-	$("#ckb-faction-4").removeAttr("checked");
+	$("#ckb-faction-4").attr("checked", "");
 	$("#ckb-faction-8").removeAttr("checked");
 	$("#ckb-faction-9").removeAttr("checked");
 
