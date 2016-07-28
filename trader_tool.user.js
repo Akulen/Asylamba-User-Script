@@ -4,7 +4,7 @@
 // @include     http://game.asylamba.com/s*/profil*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search/show-result*
-// @version     0.2.4
+// @version     0.3.0
 // @updateURL	https://github.com/Akulen/Asylamba-User-Script/raw/master/trader_tool.user.js
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -13,34 +13,35 @@
 
 var server = /\/s([0-9]*)\//.exec(window.location.href)[1];
 var page = /\/s[0-9]*\/(.*)$/.exec(window.location.href)[1];
-var dataurl = "https://api.myjson.com/bins/3kepz";
-var data;
+var dataurl = "https://api.myjson.com/bins/1hzv3";
 
-$(window).load(function(){
-	GM_xmlhttpRequest({
-		method: "GET",
-		url: dataurl,
-		onload: function(response)
-		{
-			data = JSON.parse(response.responseText);
-			if(page == "profil")
+function main ()
+{
+	$(window).load(function(){
+		GM_xmlhttpRequest({
+			method: "GET",
+			url: dataurl,
+			onload: function(response)
 			{
-				window.setInterval(update, 5000);
-				update();
+				var data = JSON.parse(response.responseText);
+				if(page == "profil")
+					update(data);
+				else if(page == "bases/view-spatioport/mode-search")
+					config();
+				else if(page == "bases/view-spatioport/mode-search/show-result")
+				{
+					config();
+					addInfo(data);
+				}
 			}
-			else if(page == "bases/view-spatioport/mode-search")
-				config();
-			else if(page == "bases/view-spatioport/mode-search/show-result")
-			{
-				window.setInterval(addInfo, 5000);
-				config();
-				addInfo();
-			}
-		}
+		});
 	});
-});
+}
 
-function update()
+window.setInterval(main, 5000);
+main();
+
+function update(data)
 {
 	var player = /Profil — ([^—]*)—/.exec($("title").html())[1];
 	player = player.slice(0, -1);
@@ -50,7 +51,7 @@ function update()
 			playerId = i;
 	if(playerId == data.players.length)
 		data.players.push({"name":player, "planets":[]});
-	
+
 	$("div[class='component hasMover']").map(function() {
 		var planetName = $(this).children().first().children().first().next().html();
 		if($(this).children().last().children().first().children().last().prev().html() == "Spatioport")
@@ -59,18 +60,18 @@ function update()
 			var usedRoads = parseInt(/^[0-9]*/.exec(roads));
 			var totalRoads = parseInt(/[0-9]*$/.exec(roads));
 			var availRoads = totalRoads - usedRoads;
-			
+
 			var planetId = data.players[playerId].planets.length;
 			for(var i = 0; i < planetId; ++i)
 				if(data.players[playerId].planets[i].name == planetName)
 					planetId = i;
 			if(planetId == data.players[playerId].planets.length)
-			 data.players[playerId].planets.push({"name":planetName, "roads":0});
+				data.players[playerId].planets.push({"name":planetName, "roads":0});
 			data.players[playerId].planets[planetId].roads = availRoads;
-  		}
+		}
 	});
 	$.ajax({
-		url:"https://api.myjson.com/bins/3kepz",
+		url:dataurl,
 		type:"PUT",
 		data:JSON.stringify(data),
 		contentType:"application/json; charset=utf-8",
@@ -91,7 +92,7 @@ function config()
 
 }
 
-function addInfo()
+function addInfo(data)
 {
 	$("a.player").map(function() {
 		var playerName = $(this).children().first().next().html();
