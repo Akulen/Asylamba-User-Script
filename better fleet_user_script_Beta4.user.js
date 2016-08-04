@@ -193,7 +193,7 @@ function initUserScript(){
     textPPreset += presetHTML([[0,7],[9,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/hydre.png","hy pe");//hy pe
     textPPreset += presetHTML([[0,9],[10,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","ce pe");//ce pe
     textPPreset += "</div><div class='list-ship test'>";
-    textPPreset += presetHTML([[0,6],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","ph pe");//ph pe
+    textPPreset += presetHTML([[0,8],[11,1]],"https://dl.dropboxusercontent.com/u/110049848/user_script_ressouces/picture/phenix.png","ph pe");//ph pe
     textPPreset += presetHTML([[6,4]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","4gr (pillage)");//4gr (pillage)
     textPPreset += presetHTML([[6,1],[8,1]],"https://dl.dropbox.com/s/4qpjj9nvz5oslrq/uppercyclop.jpe","1mi 1gr(pillage)");//1mi 1gr(pillage)
     
