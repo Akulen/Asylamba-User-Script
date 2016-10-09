@@ -9145,7 +9145,7 @@ function popToIcon(pop)
 
 function coeffToSci(coeff)
 {
-	return Math.max(0, Math.min(40, Math.ceil(0.004 * sci * sci - 0.01 * sci + 0.7)))
+	return Math.max(0, Math.min(40, Math.ceil(0.004 * coeff * coeff - 0.01 * coeff + 0.7)))
 }
 
 function sciToIcon(coeff)
@@ -9158,7 +9158,7 @@ function preprocess()
 	if(!preprocessed)
 	{
 		preprocessed = 1;
-		for each(var planet in planetList.systems)
+		for(var planet of planetList.systems)
 		{
 			if(planet.typeOfPlace == 1)
 			{
@@ -9204,7 +9204,7 @@ function topPlanete(planete) {
 }
 
 //############################################
-
+console.log("coin");
 $(function(){
 	var path = window.location.pathname;
 
