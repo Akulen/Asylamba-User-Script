@@ -4,7 +4,7 @@
 // @include     http://game.asylamba.com/s*/profil*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search/show-result*
-// @version     0.3.0
+// @version     0.4.0
 // @updateURL	https://github.com/Akulen/Asylamba-User-Script/raw/master/trader_tool.user.js
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
@@ -13,7 +13,17 @@
 
 var server = /\/s([0-9]*)\//.exec(window.location.href)[1];
 var page = /\/s[0-9]*\/(.*)$/.exec(window.location.href)[1];
-var dataurl = "https://api.myjson.com/bins/1hzv3";
+var dataurl = "";
+
+switch(server)
+{
+	case "11":
+		dataurl = "https://api.myjson.com/bins/1hzv3";
+		break;
+	case "12":
+		dataurl = "https://api.myjson.com/bins/4l6no";
+		break;
+}
 
 function main ()
 {
@@ -45,6 +55,8 @@ function update(data)
 {
 	var player = /Profil — ([^—]*)—/.exec($("title").html())[1];
 	player = player.slice(0, -1);
+	if(typeof data.players == "undefined")
+		data.players = [];
 	var playerId = data.players.length;
 	for(var i = 0; i < playerId; ++i)
 		if(data.players[i].name == player)
@@ -85,11 +97,22 @@ function update(data)
 function config()
 {
 	$("#search-rc-min-dist").attr("value", "100");
-	$("#ckb-faction-1").attr("checked", "");
-	$("#ckb-faction-4").attr("checked", "");
-	$("#ckb-faction-8").removeAttr("checked");
-	$("#ckb-faction-9").removeAttr("checked");
-
+	switch(server)
+	{
+		case "11":
+			$("#ckb-faction-1").attr("checked", "");
+			$("#ckb-faction-4").attr("checked", "");
+			$("#ckb-faction-8").removeAttr("checked");
+			$("#ckb-faction-9").removeAttr("checked");
+			break;
+		case "12":
+			$("#ckb-faction-4").attr("checked", "");
+			$("#ckb-faction-8").attr("checked", "");
+			$("#ckb-faction-10").attr("checked", "");
+			$("#ckb-faction-11").attr("checked", "");
+			$("#ckb-faction-12").attr("checked", "");
+			break;
+	}
 }
 
 function addInfo(data)
@@ -115,7 +138,7 @@ function addInfo(data)
 		if($(this).children().last().html()[$("a.player").children().last().html().length - 1] == '.')
 		{
 			var cout = 8000 * parseInt(/[0-9]*/.exec($(this).children().last().html()));
-			$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s11/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
+			$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s' + server + '/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
 		}
 	});
 }
