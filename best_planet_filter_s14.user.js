@@ -15592,7 +15592,7 @@ $(function(){
 	}
 
 	//configPanel
-	if(path.slice(1).substring(path.slice(1).indexOf('/'), path.length) == "/params")
+	if(path == "/params")
 	{
 		addConfigPanel();
 	}
