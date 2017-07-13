@@ -10,6 +10,7 @@
 // @match        http://game.asylamba.com/s10/fleet/*
 // @match        http://game.asylamba.com/s11/fleet/*
 // @match        http://game.asylamba.com/s*/fleet/*
+// @match        http://s14.asylamba.com/fleet/*
 // @grant        none
 // ==/UserScript==
 
