@@ -4,15 +4,18 @@
 // @include     http://game.asylamba.com/s*/profil*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search*
 // @include     http://game.asylamba.com/s*/bases/view-spatioport/mode-search/show-result*
-// @version     0.4.0
+// @include     http://s*.asylamba.com/profil*
+// @include     http://s*.asylamba.com/bases/view-spatioport/mode-search*
+// @include     http://s*.asylamba.com/bases/view-spatioport/mode-search/show-result*
+// @version     0.4.1
 // @updateURL	https://github.com/Akulen/Asylamba-User-Script/raw/master/trader_tool.user.js
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 // @grant       GM_xmlhttpRequest
 // @author		Akulen
 // ==/UserScript==
 
-var server = /\/s([0-9]*)\//.exec(window.location.href)[1];
-var page = /\/s[0-9]*\/(.*)$/.exec(window.location.href)[1];
+var server = /\/s([0-9]*)\./.exec(window.location.href)[1];
+var page = /asylamba\.com\/(.*)$/.exec(window.location.href)[1];
 var dataurl = "";
 
 switch(server)
@@ -23,28 +26,23 @@ switch(server)
 	case "12":
 		dataurl = "https://api.myjson.com/bins/4l6no";
 		break;
+    case "14":
+		dataurl = "https://api.myjson.com/bins/13j0o9";
+		break;
 }
 
 function main ()
 {
-	$(window).load(function(){
-		GM_xmlhttpRequest({
-			method: "GET",
-			url: dataurl,
-			onload: function(response)
-			{
-				var data = JSON.parse(response.responseText);
-				if(page == "profil")
-					update(data);
-				else if(page == "bases/view-spatioport/mode-search")
-					config();
-				else if(page == "bases/view-spatioport/mode-search/show-result")
-				{
-					config();
-					addInfo(data);
-				}
-			}
-		});
+    $.get(dataurl, function(data, textStatus, jqXHR) {
+        if(page == "profil")
+            update(data);
+        else if(page == "bases/view-spatioport/mode-search")
+            config();
+        else if(page == "bases/view-spatioport/mode-search/show-result")
+        {
+            config();
+            addInfo(data);
+        }
 	});
 }
 
@@ -138,7 +136,7 @@ function addInfo(data)
 		if($(this).children().last().html()[$("a.player").children().last().html().length - 1] == '.')
 		{
 			var cout = 8000 * parseInt(/[0-9]*/.exec($(this).children().last().html()));
-			$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://game.asylamba.com/s' + server + '/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
+			$(this).children().last().html($(this).children().last().html() + ' → ' + cout.toString() + ' <img src="http://s' + server + '.asylamba.com/public/media/resources/credit.png" alt="" class="icon-color" name="done">');
 		}
 	});
 }
